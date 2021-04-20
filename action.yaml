@@ -1,0 +1,38 @@
+name: 'Craft CMS - Atomic Deploy Action'
+description: 'Deploy Craft CMS atomically'
+inputs:
+  host:
+    description: 'Server IP'
+    required: true
+  port:
+    description: 'Server Port'
+    required: false
+    default: 22
+  user:
+    description: 'Server User'
+    required: true
+  ssh_key:
+    description: 'Private SSH key'
+    required: true
+  remote_path:
+    description: 'Absolute remote path'
+    required: true
+  post_deploy_actions:
+    description: 'The commands to run after deploy'
+    required: false
+outputs:
+  webroot:
+    description: 'The new webroot'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.host }}
+    - ${{ inputs.port }}
+    - ${{ inputs.user }}
+    - ${{ inputs.ssh_key }}
+    - ${{ inputs.remote_path }}
+    - ${{ inputs.post_deploy_actions }}
+branding:
+  icon: 'repeat'
+  color: 'blue'
