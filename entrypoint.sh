@@ -2,7 +2,7 @@
 eval `ssh-agent -s`
 ssh-add <(echo "${INPUT_SSH_KEY}")
 
-rsync -avuh --delete --progress -h -e "ssh -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --no-perms --no-owner --no-group --no-times --exclude-from "rsync-ignore.txt" --rsync-path="rsync" ${GITHUB_WORKSPACE}/ ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/deploy-cache
+rsync -avuh --delete -h -e "ssh -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --no-perms --no-owner --no-group --no-times --exclude-from "rsync-ignore.txt" --rsync-path="rsync" ${GITHUB_WORKSPACE}/ ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/deploy-cache
 
 ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
 
