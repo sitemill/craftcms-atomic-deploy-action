@@ -1,8 +1,8 @@
 # Base image
-FROM alpine:latest
+FROM gotechnies/alpine-ssh
 
 # installes required packages for our script
-RUN apk add --no-cache bash ca-certificates rsync ssh
+RUN apk add --no-cache bash ca-certificates rsync
 
 # Copies your code file repository to the filesystem
 COPY entrypoint.sh /entrypoint.sh
