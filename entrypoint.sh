@@ -15,11 +15,12 @@ rsync -avuh --delete -h -e "ssh -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --
 ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
 
   cd ${INPUT_REMOTE_PATH}
+  mkdir -p releases
 
   if [ ! -d "releases/${GITHUB_SHA}" ];
   then
     echo "Creating: releases/${GITHUB_SHA}"
-    mkdir releases/${GITHUB_SHA}
+
     cp -R deploy-cache/. releases/${GITHUB_SHA}/
   fi
 
