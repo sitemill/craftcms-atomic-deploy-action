@@ -1,7 +1,7 @@
 #!/bin/bash
 #echo "Starting ssh agent"
 #eval `ssh-agent -s`
-#ssh-agent -a ${INPUT_SSH_AUTH_SOCK} > /dev/null
+ssh-agent -a ${INPUT_SSH_AUTH_SOCK} > /dev/null
 #ssh-add <(echo "${INPUT_SSH_KEY}")
 
 #eval $(ssh-agent) &>/dev/null
