@@ -30,6 +30,8 @@ ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
   echo "Removing old releases"
   cd releases && ls -t | tail -n +11 | xargs rm -rf
 
+  echo "Running post-deploy scripts"
+  cd releases/${GITHUB_SHA}
   ${INPUT_POST_DEPLOY}
 
 EOF
