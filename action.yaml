@@ -13,7 +13,7 @@ inputs:
     required: true
   ssh_key:
     description: 'Private SSH key'
-    required: true
+    required: false
   remote_path:
     description: 'Absolute remote path'
     required: true
