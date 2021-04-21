@@ -1,6 +1,4 @@
 #!/bin/bash
-#eval `ssh-agent -s`
-#ssh-add <(echo "${INPUT_SSH_KEY}")
 
 # Authorize SSH Host
 mkdir -p /root/.ssh && \
