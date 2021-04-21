@@ -14,18 +14,22 @@ ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
     cp -R deploy-cache/. releases/${GITHUB_SHA}/
   fi
 
-  echo "Creating: persistent directories"
+  echo "Checking Craft command is executable"
+  chmod a+x ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/craft
+
+  echo "Creating persistent directories"
   mkdir -p storage
 
   echo "Symlinking: persistent files & directories"
   ln -nfs ${INPUT_REMOTE_PATH}/.env ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}
   ln -nfs ${INPUT_REMOTE_PATH}/storage/backups ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
-  ln -nfs ${INPUT_REMOTE_PATH}/storage/composer-backups ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
-  ln -nfs ${INPUT_REMOTE_PATH}/storage/config-backups ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
   ln -nfs ${INPUT_REMOTE_PATH}/storage/logs ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
   ln -nfs ${INPUT_REMOTE_PATH}/storage/runtime ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
+  ln -nfs ${INPUT_REMOTE_PATH}/storage/config-deltas ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
+
   echo "Linking current to revision: ${GITHUB_SHA}"
   ln -sfn releases/${GITHUB_SHA} current
+
   echo "Removing old releases"
   cd releases && ls -t | tail -n +11 | xargs rm -rf
 
