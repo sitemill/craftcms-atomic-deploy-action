@@ -2,7 +2,8 @@
 FROM alpine:latest
 
 # installes required packages for our script
-RUN apk add --no-cache --volume $SSH_AUTH_SOCK:/ssh-agent --env SSH_AUTH_SOCK=/ssh-agent bash ca-certificates rsync openssh ssh-add
+RUN apk add --no-cache bash ca-certificates rsync openssh
+
 
 # Copies your code file repository to the filesystem
 COPY entrypoint.sh /entrypoint.sh

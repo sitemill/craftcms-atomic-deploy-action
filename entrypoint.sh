@@ -2,6 +2,15 @@
 #eval `ssh-agent -s`
 #ssh-add <(echo "${INPUT_SSH_KEY}")
 
+# Authorize SSH Host
+RUN mkdir -p /root/.ssh && \
+    chmod 0700 /root/.ssh && \
+    ssh-keyscan github.com > /root/.ssh/known_hosts
+
+# Add the keys and set permissions
+RUN echo "${INPUT_SSH_KEY}" > /root/.ssh/id_rsa && \
+    chmod 600 /root/.ssh/id_rsa
+
 rsync -avuh --delete -h -e "ssh -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --no-perms --no-owner --no-group --no-times --exclude-from "rsync-ignore.txt" --rsync-path="rsync" ${GITHUB_WORKSPACE}/ ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/deploy-cache
 
 ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
