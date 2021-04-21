@@ -12,7 +12,7 @@ ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
   then
     echo "Creating: releases/${GITHUB_SHA}"
     mkdir releases/${GITHUB_SHA}
-    cp -R deploy-cache releases/${GITHUB_SHA}
+    cp -R deploy-cache releases/${GITHUB_SHA}/
   fi
 
   echo "Creating: persistent directories"
@@ -31,7 +31,7 @@ ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
   cd releases && ls -t | tail -n +11 | xargs rm -rf
 
   echo "Running post-deploy scripts"
-  cd releases/${GITHUB_SHA}
+  cd ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}
   ${INPUT_POST_DEPLOY}
 
 EOF
