@@ -11,7 +11,8 @@ ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
   if [ ! -d "releases/${GITHUB_SHA}" ];
   then
     echo "Creating: releases/${GITHUB_SHA}"
-    mv deploy-cache releases/${GITHUB_SHA}
+    mkdir releases/${GITHUB_SHA}
+    cp -R deploy-cache releases/${GITHUB_SHA}
   fi
 
   echo "Creating: persistent directories"
@@ -29,6 +30,6 @@ ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
   echo "Removing old releases"
   cd releases && ls -t | tail -n +11 | xargs rm -rf
 
-  ${INPUT_POST_DEPLOY_ACTIONS}
+  ${INPUT_POST_DEPLOY}
 
 EOF
