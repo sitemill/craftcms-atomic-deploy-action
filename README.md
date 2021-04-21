@@ -4,7 +4,7 @@ An all-in-one action to Rsync + Atomically deploy your Craft project.
 
 It will:
 
-1. RSYNC you artifacts to a temporary `deploy-cache` directory
+1. RSYNC your workspace artifacts to a temporary `deploy-cache` directory
 2. Create a unique release folder in a `releases` directory
 3. Symlink persistent files like .env and certain `storage` folders
 4. Check the `craft` script can be executed
