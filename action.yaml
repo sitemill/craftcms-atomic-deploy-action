@@ -1,5 +1,5 @@
 name: 'Craft CMS - Atomic Deploy Action'
-description: 'Deploy Craft CMS atomically'
+description: 'Performs a zero-downtime deploy with Craft CMS'
 inputs:
   host:
     description: 'Server IP'
@@ -34,5 +34,5 @@ runs:
     - ${{ inputs.remote_path }}
     - ${{ inputs.post_deploy }}
 branding:
-  icon: 'repeat'
-  color: 'blue'
+  icon: 'upload-cloud'
+  color: 'red'

@@ -20,7 +20,6 @@ ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
   if [ ! -d "releases/${GITHUB_SHA}" ];
   then
     echo "Creating: releases/${GITHUB_SHA}"
-
     cp -R deploy-cache/. releases/${GITHUB_SHA}/
   fi
 
