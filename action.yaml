@@ -17,7 +17,7 @@ inputs:
   remote_path:
     description: 'Absolute remote path'
     required: true
-  post_deploy_actions:
+  post_deploy:
     description: 'The commands to run after deploy'
     required: false
 outputs:
@@ -32,7 +32,7 @@ runs:
     - ${{ inputs.user }}
     - ${{ inputs.ssh_key }}
     - ${{ inputs.remote_path }}
-    - ${{ inputs.post_deploy_actions }}
+    - ${{ inputs.post_deploy }}
 branding:
   icon: 'repeat'
   color: 'blue'
