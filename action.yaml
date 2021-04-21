@@ -1,5 +1,5 @@
 name: 'Craft CMS - Atomic Deploy Action'
-description: 'Performs a zero-downtime deploy with Craft CMS'
+description: 'An all-in-one action to Rsync + Atomically deploy your Craft project.'
 inputs:
   host:
     description: 'Server IP'
@@ -13,7 +13,7 @@ inputs:
     required: true
   ssh_key:
     description: 'Private SSH key'
-    required: false
+    required: true
   remote_path:
     description: 'Absolute remote path'
     required: true
