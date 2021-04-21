@@ -1,12 +1,18 @@
 #!/bin/bash
-if [["${INPUT_SSH_KEY}" ]]; then
-  eval $(ssh-agent -s)
-  ssh-add <(echo "${INPUT_SSH_KEY}")
-fi
+#echo "Starting ssh agent"
+#eval `ssh-agent -s`
+#ssh-agent -a ${INPUT_SSH_AUTH_SOCK} > /dev/null
+#ssh-add <(echo "${INPUT_SSH_KEY}")
+
+#eval $(ssh-agent) &>/dev/null
+
+#if [[ ${INPUT_SSH_AUTH_SOCK} ]];
+#ssh-agent -a $INPUT_SSH_AUTH_SOCK > /dev/null
+#fi
 
 rsync -avuh --delete -h -e "ssh -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --no-perms --no-owner --no-group --no-times --exclude-from "rsync-ignore.txt" --rsync-path="rsync" ${GITHUB_WORKSPACE}/ ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/deploy-cache
 
-ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} <<EOF
+ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
 
   cd ${INPUT_REMOTE_PATH}
 
