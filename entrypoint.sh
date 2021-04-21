@@ -8,6 +8,7 @@ RUN mkdir -p /root/.ssh && \
     ssh-keyscan github.com > /root/.ssh/known_hosts
 
 # Add the keys and set permissions
+touch /root/.ssh/id_rsa
 RUN echo "${INPUT_SSH_KEY}" > /root/.ssh/id_rsa && \
     chmod 600 /root/.ssh/id_rsa
 
