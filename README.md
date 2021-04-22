@@ -27,6 +27,8 @@ __Settings:__
 
 `source_dir` - The directory from which the files will be deployed, defaults to `deploy-cache` if none set.
 
+`post_deploy` - Run any post deploy scripts
+
 ``
 ## Example
 
@@ -65,7 +67,11 @@ jobs:
           # Optional settings
           source_dir: deploy-cache
           port: ${{ secrets.PORT }}
-
+          post_deploy: |
+            php craft db/backup
+            php craft clear-caches/all
+            php craft migrate/all
+            php craft project-config/apply
 ```
 
 Borrowed from: https://nystudio107.com/blog/executing-atomic-deployments

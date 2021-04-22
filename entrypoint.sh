@@ -61,4 +61,7 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   echo "Removing old releases"
   cd releases && ls -t | tail -n +11 | xargs rm -rf
 
+  cd ${INPUT_REMOTE_PATH}/current
+  ${INPUTS_POST_DEPLOY}
+
 EOF

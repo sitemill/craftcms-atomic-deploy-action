@@ -21,6 +21,9 @@ inputs:
     description: 'Relative path to source files'
     default: deploy-cache
     required: false
+  post_deploy:
+    description: 'Post deploy scripts'
+    required: false
 outputs:
   webroot:
     description: 'The new webroot'
@@ -34,6 +37,7 @@ runs:
     - ${{ inputs.ssh_key }}
     - ${{ inputs.remote_path }}
     - ${{ inputs.source_dir }}
+    - ${{ inputs.post_deploy }}
 branding:
   icon: 'upload-cloud'
   color: 'red'
