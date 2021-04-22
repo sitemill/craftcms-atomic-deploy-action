@@ -14,16 +14,26 @@ inputs:
   ssh_key:
     description: 'Private SSH key'
     required: true
+  local_path:
+    description: 'Path to your built artifacts'
+    default: ${{ github_workspace }}
+    required: false
   remote_path:
     description: 'Absolute remote path'
     required: true
-  source_dir:
+  remote_cache_dir:
     description: 'Relative path to source files'
     default: deploy-cache
     required: false
   post_deploy:
     description: 'Post deploy scripts'
     required: false
+  rsync:
+    description: 'Whether to rsync the files, uses local_path for the source'
+    default: true
+  rsync_ignore_file:
+    description: 'A text file listing files to ignore during rsync'
+    default: rsync-ignore.txt
 outputs:
   webroot:
     description: 'The new webroot'
@@ -35,9 +45,12 @@ runs:
     - ${{ inputs.port }}
     - ${{ inputs.user }}
     - ${{ inputs.ssh_key }}
+    - ${{ inputs.local_path }}
     - ${{ inputs.remote_path }}
-    - ${{ inputs.source_dir }}
+    - ${{ inputs.remote_cache_dir }}
     - ${{ inputs.post_deploy }}
+    - ${{ inputs.rsync }}
+    - ${{ inputs.rsync_ignore_file }}
 branding:
   icon: 'upload-cloud'
   color: 'red'

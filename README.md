@@ -25,11 +25,10 @@ __Settings:__
 
 `remote_path` - The absolute path to the root directory of you application something like `cd /var/www/vhosts/your-app`.
 
-`source_dir` - The directory from which the files will be deployed, defaults to `deploy-cache` if none set.
+`remote_cache_dir` - The directory from which the files will be deployed, defaults to `deploy-cache` if none set.
 
 `post_deploy` - Run any post deploy scripts, these will be run in the `current` directory
 
-``
 ## Example
 
 ```yaml
@@ -44,18 +43,6 @@ jobs:
         
       # >> Your build actions here <<
 
-      # Let's use a pre-made rsync action (you could just use a simple ssh action)
-      - name: rsync deployments
-          uses: burnett01/rsync-deployments@4.1
-          with:
-            switches: -avuhe --delete --no-perms --no-owner --no-group --no-times --exclude-from "rsync-ignore.txt" 
-            path: ${GITHUB_WORKSPACE}/
-            remote_path: ${{ secrets.REMOTE_PATH }}/deploy-cache
-            remote_host: ${{ secrets.HOST }}
-            remote_port: ${{ secrets.PORT }}
-            remote_user: ${{ secrets.USER }}
-            remote_key: ${{ secrets.SSH_KEY }}
-            
       - name: Atomic Craft Deploy
         uses: sitemill/craftcms-atomic-deploy-action@v1.0.0
         with:
@@ -65,7 +52,9 @@ jobs:
           ssh_key: ${{ secrets.SSH_KEY }}
           remote_path: ${{ secrets.REMOTE_PATH }}
           # Optional settings
-          source_dir: deploy-cache
+          rsync: true
+          rsync_ignore_file: rsync-ignore.txt
+          remote_cache_dir: deploy-cache
           port: ${{ secrets.PORT }}
           post_deploy: |
             php craft db/backup

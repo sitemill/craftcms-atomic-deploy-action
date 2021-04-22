@@ -19,6 +19,46 @@ chmod 700 "$SSHPATH"
 chmod 600 "$SSHPATH/known_hosts"
 chmod 600 "$SSHPATH/deploy_key"
 
+if [ ! -f "${INPUT_LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE}" ]
+then
+  echo "Creating rsync ignore file"
+  cat > ${INPUT_LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE} << EOF
+    .github
+    node_modules
+    .idea
+    .git
+    .gitignore
+    package-lock.json
+    package.json
+    README.MD
+    webpack.mix.js
+    .bashrc
+    conf
+    logs
+    .openssh
+    .ssh
+    ssl
+    tmp
+    .vimrc
+    gitStatusTelegramBot.sh
+    .env
+    .idea
+    _src
+    storage/backups/
+    storage/composer-backups/
+    storage/config-backups/
+    storage/config-deltas/
+    storage/logs/
+    storage/runtime/
+    web/cpresources/
+EOF
+fi
+
+if [ "${INPUT_RSYNC}" = true ]
+then
+  -rsync -avuh --delete -h -e "ssh -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --no-perms --no-owner --no-group --no-times --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" --rsync-path="rsync" ${INPUT_LOCAL_PATH}/ ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIRECTORY}
+fi
+
 ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INPUT_HOST}  << EOF
 
   cd ${INPUT_REMOTE_PATH}
