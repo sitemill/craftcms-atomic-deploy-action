@@ -27,7 +27,7 @@ __Settings:__
 
 `source_dir` - The directory from which the files will be deployed, defaults to `deploy-cache` if none set.
 
-`post_deploy` - Run any post deploy scripts
+`post_deploy` - Run any post deploy scripts, these will be run in the `current` directory
 
 ``
 ## Example
