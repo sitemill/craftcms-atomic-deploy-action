@@ -58,10 +58,10 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   rm -f current
   ln -s releases/${GITHUB_SHA} current
 
-  cd ${INPUT_REMOTE_PATH}/current
+  cd current
   ${INPUTS_POST_DEPLOY}
 
   echo "Removing old releases"
-  cd releases && ls -t | tail -n +11 | xargs rm -rf
+  cd ${INPUT_REMOTE_PATH}/releases && ls -t | tail -n +11 | xargs rm -rf
 
 EOF
