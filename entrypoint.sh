@@ -19,18 +19,10 @@ chmod 700 "$SSHPATH"
 chmod 600 "$SSHPATH/known_hosts"
 chmod 600 "$SSHPATH/deploy_key"
 
-if [ -z "${INPUT_LOCAL_PATH}" ]
-then
-  LOCAL_PATH="${GITHUB_WORKSPACE}"
-else
-  LOCAL_PATH="${INPUT_LOCAL_PATH}"
-fi
-echo "Local path: $LOCAL_PATH"
-
-if [ ! -f "${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE}" ]
+if [ ! -f "${INPUT_LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE}" ]
 then
 echo "No rsync ignore file, creating ${INPUT_RSYNC_IGNORE_FILE} from defaults"
-cat > ${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE} << EOF
+cat > ${INPUT_LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE} << EOF
 .github
 node_modules
 .idea
@@ -65,7 +57,7 @@ fi
 if [ "${INPUT_RSYNC}" = true ]
 then
   echo "Rsync'ing with: ${INPUT_RSYNC_SWITCHES}"
-  rsync ${INPUT_RSYNC_SWITCHES} --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" -e "ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT}" "${LOCAL_PATH}/" ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIR}
+  rsync ${INPUT_RSYNC_SWITCHES} --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" -e "ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT}" "${INPUT_LOCAL_PATH}/" ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIR}
 fi
 
 ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INPUT_HOST}  << EOF
