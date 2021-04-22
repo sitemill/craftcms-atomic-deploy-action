@@ -28,6 +28,7 @@ then
 else
   LOCAL_PATH="${INPUT_LOCAL_PATH}"
 fi
+echo "Local path: $LOCAL_PATH"
 
 if [ ! -f "${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE}" ]
 then
@@ -66,7 +67,8 @@ fi
 
 if [ "${INPUT_RSYNC}" = true ]
 then
-  rsync -avuhe --delete "ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --no-perms --no-owner --no-group --no-times --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" --rsync-path="rsync" ${LOCAL_PATH}/ ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIR}
+  echo "rsync "${INPUT_RSYNC_SWITCHES}" --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" -e "ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT}" "${LOCAL_PATH}/" ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIR}"
+  rsync "${INPUT_RSYNC_SWITCHES}" --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" -e "ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT}" "${LOCAL_PATH}/" ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIR}
 fi
 
 ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INPUT_HOST}  << EOF

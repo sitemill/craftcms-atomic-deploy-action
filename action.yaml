@@ -36,6 +36,10 @@ inputs:
     description: 'A text file listing files to ignore during rsync'
     default: rsync-ignore.txt
     required: false
+  rsync_switches:
+    description: 'Rsync options'
+    default: -avzrh --delete
+    required: false
 outputs:
   webroot:
     description: 'The new webroot'
@@ -53,6 +57,7 @@ runs:
     - ${{ inputs.post_deploy }}
     - ${{ inputs.rsync }}
     - ${{ inputs.rsync_ignore_file }}
+    - ${{ inputs.rsync_switches }}
 branding:
   icon: 'upload-cloud'
   color: 'red'
