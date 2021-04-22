@@ -1,8 +1,5 @@
 #!/bin/bash
 
-echo "Remote cache dir: ${INPUT_REMOTE_CACHE_DIR}"
-echo "Rsync ignore file: ${INPUT_RSYNC_IGNORE_FILE}"
-
 SSHPATH="$HOME/.ssh"
 
 if [ ! -d "$SSHPATH" ]
@@ -67,6 +64,7 @@ fi
 
 if [ "${INPUT_RSYNC}" = true ]
 then
+  echo "Rsync'ing with: ${INPUT_RSYNC_SWITCHES}"
   rsync ${INPUT_RSYNC_SWITCHES} --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" -e "ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT}" "${LOCAL_PATH}/" ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIR}
 fi
 
