@@ -72,7 +72,7 @@ jobs:
 
 ## Files ignored by rsync
 
-This action will look for an `.rsyncignore` file in your root directory, if not it will ignore the following files and folders by default:
+This action will look for an `.rsyncignore` file in your root directory. If it doesn't find one it will ignore the following files and folders by default:
 
 ```text
 .github
