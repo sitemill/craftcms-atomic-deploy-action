@@ -34,11 +34,11 @@ inputs:
     required: false
   rsync_ignore_file:
     description: 'A text file listing files to ignore during rsync'
-    default: rsync-ignore.txt
+    default: .rsyncignore
     required: false
   rsync_switches:
     description: 'Rsync options'
-    default: -avzrh --delete
+    default: '-avzrh --delete'
     required: false
 outputs:
   webroot:

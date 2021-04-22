@@ -32,7 +32,7 @@ echo "Local path: $LOCAL_PATH"
 
 if [ ! -f "${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE}" ]
 then
-echo "Creating rsync ignore file"
+echo "No rsync ignore file, creating ${INPUT_RSYNC_IGNORE_FILE} from defaults"
 cat > ${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE} << EOF
 .github
 node_modules
@@ -65,8 +65,6 @@ web/cpresources/
 EOF
 fi
 
-cat ${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE}
-
 if [ "${INPUT_RSYNC}" = true ]
 then
   rsync ${INPUT_RSYNC_SWITCHES} --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" -e "ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT}" "${LOCAL_PATH}/" ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIR}
@@ -74,46 +72,50 @@ fi
 
 ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INPUT_HOST}  << EOF
 
-  cd ${INPUT_REMOTE_PATH}
+cd ${INPUT_REMOTE_PATH}
 
-  if [ ! -d "releases" ]
-  then
-    echo "Creating releases directory"
-    mkdir releases
-  fi
+if [ ! -d "releases" ]
+then
+  echo "Creating releases directory"
+  mkdir releases
+fi
 
-  if [ ! -d "storage" ]
-  then
-    echo "Creating storage directory"
-    mkdir storage
-  fi
+if [ ! -d "storage" ]
+then
+  echo "Creating storage directory"
+  mkdir storage
+fi
 
-  echo "Copying: ${INPUT_REMOTE_CACHE_DIR} -> releases/${GITHUB_SHA}"
-  cp -RT ${INPUT_REMOTE_CACHE_DIR} releases/${GITHUB_SHA}
+echo "Copying: ${INPUT_REMOTE_CACHE_DIR} -> releases/${GITHUB_SHA}"
+cp -RT ${INPUT_REMOTE_CACHE_DIR} releases/${GITHUB_SHA}
 
-  if [ ! -d "releases/${GITHUB_SHA}" ];
-  then
-    echo "Error: Could not create directory releases/${GITHUB_SHA}"
-    exit 1
-  fi
+if [ ! -d "releases/${GITHUB_SHA}" ];
+then
+  echo "Error: Could not create directory releases/${GITHUB_SHA}"
+  exit 1
+fi
 
-  echo "Symlinking: persistent files & directories"
-  ln -nfs ${INPUT_REMOTE_PATH}/.env ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}
-  ln -nfs ${INPUT_REMOTE_PATH}/storage/backups ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
-  ln -nfs ${INPUT_REMOTE_PATH}/storage/logs ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
-  ln -nfs ${INPUT_REMOTE_PATH}/storage/runtime ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
-  ln -nfs ${INPUT_REMOTE_PATH}/storage/config-deltas ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
+echo "Symlinking: .env"
+ln -nfs ${INPUT_REMOTE_PATH}/.env ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}
+echo "Symlinking: storage/backups"
+ln -nfs ${INPUT_REMOTE_PATH}/storage/backups ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
+echo "Symlinking: storage/logs"
+ln -nfs ${INPUT_REMOTE_PATH}/storage/logs ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
+echo "Symlinking: storage/runtime"
+ln -nfs ${INPUT_REMOTE_PATH}/storage/runtime ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
+echo "Symlinking: storage/config-deltas"
+ln -nfs ${INPUT_REMOTE_PATH}/storage/config-deltas ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
 
-  echo "Linking current to revision: ${GITHUB_SHA}"
-  rm -f current
-  ln -s releases/${GITHUB_SHA} current
+echo "Linking current to revision: ${GITHUB_SHA}"
+rm -f current
+ln -s releases/${GITHUB_SHA} current
 
-  cd ${INPUT_REMOTE_PATH}/current
-  echo "Make craft command executable"
-  chmod a+x craft
-  ${INPUT_POST_DEPLOY}
+cd ${INPUT_REMOTE_PATH}/current
+echo "Make craft command executable"
+chmod a+x craft
+${INPUT_POST_DEPLOY}
 
-  echo "Removing old releases"
-  cd ${INPUT_REMOTE_PATH}/releases && ls -t | tail -n +11 | xargs rm -rf
+echo "Removing old releases"
+cd ${INPUT_REMOTE_PATH}/releases && ls -t | tail -n +11 | xargs rm -rf
 
 EOF
