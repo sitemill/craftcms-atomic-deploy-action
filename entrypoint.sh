@@ -22,7 +22,18 @@ chmod 600 "$SSHPATH/deploy_key"
 ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INPUT_HOST}  << EOF
 
   cd ${INPUT_REMOTE_PATH}
-  mkdir -p releases
+
+  if [ ! -d "releases" ]
+  then
+    echo "Creating releases directory"
+    mkdir releases
+  fi
+
+  if [ ! -d "storage" ]
+  then
+    echo "Creating storage directory"
+    mkdir storage
+  fi
 
   echo "Creating: releases/${GITHUB_SHA}"
   cp -R ${INPUT_SOURCE_DIR} releases/${GITHUB_SHA}
@@ -35,9 +46,6 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
 
   echo "Make craft command executable"
   chmod a+x ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/craft
-
-  echo "Creating persistent directories"
-  mkdir -p storage
 
   echo "Symlinking: persistent files & directories"
   ln -nfs ${INPUT_REMOTE_PATH}/.env ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}
