@@ -82,7 +82,7 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
     mkdir storage
   fi
 
-  echo "Creating: releases/${GITHUB_SHA}"
+  echo "Copying: ${INPUT_REMOTE_CACHE_DIRECTORY} -> releases/${GITHUB_SHA}"
   cp -RT ${INPUT_REMOTE_CACHE_DIRECTORY} releases/${GITHUB_SHA}
 
   if [ ! -d "releases/${GITHUB_SHA}" ];
