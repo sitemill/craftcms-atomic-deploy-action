@@ -27,7 +27,7 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   if [ ! -d "releases/${GITHUB_SHA}" ];
   then
     echo "Creating: releases/${GITHUB_SHA}"
-    cp -R ${SOURCE_DIR} releases/${GITHUB_SHA}
+    cp -R ${INPUT_SOURCE_DIR} releases/${GITHUB_SHA}/
   fi
 
   echo "Checking Craft command is executable"
