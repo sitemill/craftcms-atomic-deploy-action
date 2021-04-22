@@ -1,17 +1,25 @@
 #!/bin/bash
 
-# Authorize SSH Host
-mkdir -p /root/.ssh && \
-chmod 0700 /root/.ssh && \
-ssh-keyscan github.com > /root/.ssh/known_hosts
+SSHPATH="$HOME/.ssh"
 
-# Add the keys and set permissions
-touch /root/.ssh/id_rsa
-echo "${INPUT_SSH_KEY}" > /root/.ssh/id_rsa && \
-    chmod 600 /root/.ssh/id_rsa
+if [ ! -d "$SSHPATH" ]
+then
+  mkdir "$SSHPATH"
+fi
 
+if [ ! -f "$SSHPATH/known_hosts" ]
+then
+  touch "$SSHPATH/known_hosts"
+fi
 
-ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
+echo "$INPUT_SSH_KEY" > "$SSHPATH/deploy_key"
+KEYFILE="$SSHPATH/deploy_key"
+
+chmod 700 "$SSHPATH"
+chmod 600 "$SSHPATH/known_hosts"
+chmod 600 "$SSHPATH/deploy_key"
+
+ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INPUT_HOST}  << EOF
 
   cd ${INPUT_REMOTE_PATH}
   mkdir -p releases
@@ -40,9 +48,5 @@ ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
 
   echo "Removing old releases"
   cd releases && ls -t | tail -n +11 | xargs rm -rf
-
-  echo "Running post-deploy scripts"
-  cd ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}
-  ${INPUT_POST_DEPLOY}
 
 EOF

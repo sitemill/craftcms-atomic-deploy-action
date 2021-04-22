@@ -8,7 +8,6 @@ It will:
 2. Symlink persistent files like `.env` and the `backups`, `logs`, `runtime` and `config-deltas` folders
 3. Check the `craft` script can be executed
 4. Symlink the `current` folder to the new release
-5. Run any post deploy scripts
 
 ## Usage
 
@@ -27,8 +26,6 @@ __Settings:__
 `remote_path` - The absolute path to the root directory of you application something like `cd /var/www/vhosts/your-app`.
 
 `source_dir` - The directory from which the files will be deployed, defaults to `deploy-cache` if none set.
-
-`post_deploy` - Optional post deploy actions, one per line.
 
 ``
 ## Example
@@ -50,7 +47,7 @@ jobs:
           uses: burnett01/rsync-deployments@4.1
           with:
             switches: -avuhe --delete --no-perms --no-owner --no-group --no-times --exclude-from "rsync-ignore.txt" 
-            path: ${GITHUB_WORKSPACE}
+            path: ${GITHUB_WORKSPACE}/
             remote_path: ${{ secrets.REMOTE_PATH }}/deploy-cache
             remote_host: ${{ secrets.HOST }}
             remote_port: ${{ secrets.PORT }}
@@ -68,11 +65,6 @@ jobs:
           # Optional settings
           source_dir: deploy-cache
           port: ${{ secrets.PORT }}
-          post_deploy: |
-            php craft db/backup
-            php craft clear-caches/all
-            php craft migrate/all
-            php craft project-config/apply
 
 ```
 

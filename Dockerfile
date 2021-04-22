@@ -2,8 +2,11 @@
 FROM alpine:latest
 
 # installes required packages for our script
-RUN apk add --no-cache bash ca-certificates rsync openssh
-
+RUN apk update && \
+      apk add --no-cache ca-certificates \
+      openssh-client \
+      sshpass \
+      bash
 
 # Copies your code file repository to the filesystem
 COPY entrypoint.sh /entrypoint.sh
