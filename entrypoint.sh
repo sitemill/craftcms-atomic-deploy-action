@@ -26,7 +26,7 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
 
   if [ -d "releases/${GITHUB_SHA}" ];
   then
-    echo "Release directory already exists."
+    echo "Error: Release directory already exists."
     exit 1
   else
     echo "Creating: releases/${GITHUB_SHA}"
@@ -34,7 +34,8 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   fi
 
   if [ ! -d "releases/${GITHUB_SHA}" ];
-    echo "Could not create directory releases/${GITHUB_SHA}"
+  then
+    echo "Error: Could not create directory releases/${GITHUB_SHA}"
     exit 1
   fi
 
