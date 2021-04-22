@@ -36,7 +36,7 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   fi
 
   echo "Creating: releases/${GITHUB_SHA}"
-  cp -R ${INPUT_SOURCE_DIR} releases/${GITHUB_SHA}
+  cp -R ${INPUT_SOURCE_DIR} releases/${GITHUB_SHA}/
 
   if [ ! -d "releases/${GITHUB_SHA}" ];
   then
@@ -55,7 +55,8 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   ln -nfs ${INPUT_REMOTE_PATH}/storage/config-deltas ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
 
   echo "Linking current to revision: ${GITHUB_SHA}"
-  ln -nfs ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA} ${INPUT_REMOTE_PATH}/current
+  rm -f current
+  ln -s releases/${GITHUB_SHA} current
 
   echo "Removing old releases"
   cd releases && ls -t | tail -n +11 | xargs rm -rf
