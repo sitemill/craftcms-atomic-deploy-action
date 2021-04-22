@@ -2,16 +2,17 @@
 
 An action to Atomically deploy your Craft project.
 
-It will:
+**It will:**
 
-1. Copy your source files into a unique `releases` directory
-2. Symlink persistent files like `.env` and the `backups`, `logs`, `runtime` and `config-deltas` folders
-3. Check the `craft` script can be executed
+1. **Rsync** your source files to your server. By default it will put them in a folder called `deploy-cache`, but you can ovveride this with `remote_cache_dir`
+1. Copy the cached files into a unique `releases` directory
+2. Symlink persistent files `.env` and the `backups`, `logs`, `runtime` and `config-deltas` folders
+3. Set `craft` to be executable with `chmod a+x craft`
 4. Symlink the `current` folder to the new release
+5. Run any post deploy scripts defined in `post_deploy`
 
 ## Usage
 
-This action presumes that you are first syncing your files to a cache folder with Rsync. This folder is set to `deploy-cache` by default, but you can change this by setting the`source_dir`. 
 
 __Settings:__
 
@@ -25,9 +26,7 @@ __Settings:__
 
 `remote_path` - The absolute path to the root directory of you application something like `cd /var/www/vhosts/your-app`.
 
-`rsync` - Whether to use rsync to sync the files to the `remote_cache_dir`. Defaults to `true`, so set this to false if you are uploading your files in a different job.
-
-`rsync_ignore_file` - A file in your root folder with a list of files to ignore, 
+`rsync` - Whether to use rsync to sync the files to the `remote_cache_dir`. Defaults to `true`. Set this to false if you are uploading files in a different job.
 
 `remote_cache_dir` - The directory from which the files will be deployed, defaults to `deploy-cache` if none set.
 
@@ -58,7 +57,6 @@ jobs:
           remote_path: ${{ secrets.REMOTE_PATH }}
           # Optional settings
           rsync: true
-          rsync_ignore_file: rsync-ignore.txt
           remote_cache_dir: deploy-cache
           port: ${{ secrets.PORT }}
           post_deploy: |
@@ -69,6 +67,8 @@ jobs:
 ```
 
 ## Files ignored by rsync
+
+This action will look for an `.rsyncignore` file in your root directory, if not it will ignore the following files and folders by default:
 
 ```text
 .github
@@ -100,5 +100,3 @@ storage/logs/
 storage/runtime/
 web/cpresources/
 ```
-
-Borrowed from: https://nystudio107.com/blog/executing-atomic-deployments
