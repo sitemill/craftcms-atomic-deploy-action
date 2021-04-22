@@ -31,9 +31,11 @@ inputs:
   rsync:
     description: 'Whether to rsync the files, uses local_path for the source'
     default: true
+    required: false
   rsync_ignore_file:
     description: 'A text file listing files to ignore during rsync'
     default: rsync-ignore.txt
+    required: false
 outputs:
   webroot:
     description: 'The new webroot'
