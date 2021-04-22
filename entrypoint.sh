@@ -10,7 +10,6 @@ touch /root/.ssh/id_rsa
 echo "${INPUT_SSH_KEY}" > /root/.ssh/id_rsa && \
     chmod 600 /root/.ssh/id_rsa
 
-rsync -avuh --delete -h -e "ssh -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --no-perms --no-owner --no-group --no-times --exclude-from "rsync-ignore.txt" --rsync-path="rsync" ${GITHUB_WORKSPACE}/ ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/deploy-cache
 
 ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
 
@@ -20,7 +19,7 @@ ssh ${INPUT_USER}@${INPUT_HOST} -p ${INPUT_PORT} << EOF
   if [ ! -d "releases/${GITHUB_SHA}" ];
   then
     echo "Creating: releases/${GITHUB_SHA}"
-    cp -R deploy-cache/. releases/${GITHUB_SHA}/
+    cp -R ${SOURCE_DIR} releases/${GITHUB_SHA}/
   fi
 
   echo "Checking Craft command is executable"
