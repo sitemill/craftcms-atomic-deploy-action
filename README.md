@@ -25,9 +25,14 @@ __Settings:__
 
 `remote_path` - The absolute path to the root directory of you application something like `cd /var/www/vhosts/your-app`.
 
+`rsync` - Whether to use rsync to sync the files to the `remote_cache_dir`. Defaults to `true`, so set this to false if you are uploading your files in a different job.
+
+`rsync_ignore_file` - A file in your root folder with a list of files to ignore, 
+
 `remote_cache_dir` - The directory from which the files will be deployed, defaults to `deploy-cache` if none set.
 
 `post_deploy` - Run any post deploy scripts, these will be run in the `current` directory
+
 
 ## Example
 
@@ -61,6 +66,39 @@ jobs:
             php craft clear-caches/all
             php craft migrate/all
             php craft project-config/apply
+```
+
+## Files ignored by rsync
+
+```text
+.github
+node_modules
+.idea
+.git
+.gitignore
+package-lock.json
+package.json
+README.MD
+webpack.mix.js
+.bashrc
+conf
+logs
+.openssh
+.ssh
+ssl
+tmp
+.vimrc
+gitStatusTelegramBot.sh
+.env
+.idea
+_src
+storage/backups/
+storage/composer-backups/
+storage/config-backups/
+storage/config-deltas/
+storage/logs/
+storage/runtime/
+web/cpresources/
 ```
 
 Borrowed from: https://nystudio107.com/blog/executing-atomic-deployments

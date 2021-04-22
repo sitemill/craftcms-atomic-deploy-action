@@ -65,6 +65,8 @@ then
 EOF
 fi
 
+cat ${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE}
+
 if [ "${INPUT_RSYNC}" = true ]
 then
   rsync ${INPUT_RSYNC_SWITCHES} --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" -e "ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT}" "${LOCAL_PATH}/" ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIR}
