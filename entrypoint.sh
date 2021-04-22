@@ -55,10 +55,10 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   rm -f current
   ln -s releases/${GITHUB_SHA} current
 
-  cd current
+  cd ${INPUT_REMOTE_PATH}/current
   echo "Make craft command executable"
   chmod a+x craft
-  ${INPUTS_POST_DEPLOY}
+  ${INPUT_POST_DEPLOY}
 
   echo "Removing old releases"
   cd ${INPUT_REMOTE_PATH}/releases && ls -t | tail -n +11 | xargs rm -rf
