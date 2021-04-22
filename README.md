@@ -13,14 +13,13 @@ An action to Atomically deploy your Craft project.
 
 ## Usage
 
-
 __Settings:__
 
-`host` - Your remote SSH server hostname/ip
+`host` - Your remote SSH server hostname/IP
 
 `user` - Remote SSH server user
 
-`ssh_key` - A private SSH key, you can create a key using `ssh-keygen -t rsa -b 4096 -m pem -f /tmp/key-github` then place the public key on your remote server, and paste the private key in a github secret. This can be used for rsync'ing also.
+`ssh_key` - A private [SSH key](#creating-a-ssh-key)
 
 `port` - Your SSH server port, defaults to 22 if none set.
 
@@ -100,3 +99,8 @@ storage/logs/
 storage/runtime/
 web/cpresources/
 ```
+
+## Creating a SSH key
+You can generate a key using `ssh-keygen -t rsa -b 4096 -m pem -f /tmp/key-github`. 
+
+Place the public key on your remote server, and paste the private key into a github secret.
