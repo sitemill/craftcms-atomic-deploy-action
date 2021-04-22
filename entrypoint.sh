@@ -32,36 +32,36 @@ echo "Local path: $LOCAL_PATH"
 
 if [ ! -f "${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE}" ]
 then
-  echo "Creating rsync ignore file"
-  cat > ${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE} << EOF
-  .github
-  node_modules
-  .idea
-  .git
-  .gitignore
-  package-lock.json
-  package.json
-  README.MD
-  webpack.mix.js
-  .bashrc
-  conf
-  logs
-  .openssh
-  .ssh
-  ssl
-  tmp
-  .vimrc
-  gitStatusTelegramBot.sh
-  .env
-  .idea
-  _src
-  storage/backups/
-  storage/composer-backups/
-  storage/config-backups/
-  storage/config-deltas/
-  storage/logs/
-  storage/runtime/
-  web/cpresources/
+echo "Creating rsync ignore file"
+cat > ${LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE} << EOF
+.github
+node_modules
+.idea
+.git
+.gitignore
+package-lock.json
+package.json
+README.MD
+webpack.mix.js
+.bashrc
+conf
+logs
+.openssh
+.ssh
+ssl
+tmp
+.vimrc
+gitStatusTelegramBot.sh
+.env
+.idea
+_src
+storage/backups/
+storage/composer-backups/
+storage/config-backups/
+storage/config-deltas/
+storage/logs/
+storage/runtime/
+web/cpresources/
 EOF
 fi
 
