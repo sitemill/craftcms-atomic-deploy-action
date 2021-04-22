@@ -1,6 +1,7 @@
 #!/bin/bash
 
-echo "${INPUT_REMOTE_CACHE_DIRECTORY}"
+echo "Remote cache dir: ${INPUT_REMOTE_CACHE_DIR}"
+echo "Rsync ignore file: ${INPUT_RSYNC_IGNORE_FILE}"
 
 SSHPATH="$HOME/.ssh"
 
@@ -65,7 +66,7 @@ fi
 
 if [ "${INPUT_RSYNC}" = true ]
 then
-  rsync -avuh --delete -h -e "ssh -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --no-perms --no-owner --no-group --no-times --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" --rsync-path="rsync" ${LOCAL_PATH}/ ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIRECTORY}
+  rsync -avuhe --delete "ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT}" --no-perms --no-owner --no-group --no-times --exclude-from "${INPUT_RSYNC_IGNORE_FILE}" --rsync-path="rsync" ${LOCAL_PATH}/ ${INPUT_USER}@${INPUT_HOST}:${INPUT_REMOTE_PATH}/${INPUT_REMOTE_CACHE_DIR}
 fi
 
 ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INPUT_HOST}  << EOF
@@ -84,8 +85,8 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
     mkdir storage
   fi
 
-  echo "Copying: ${INPUT_REMOTE_CACHE_DIRECTORY} -> releases/${GITHUB_SHA}"
-  cp -RT ${INPUT_REMOTE_CACHE_DIRECTORY} releases/${GITHUB_SHA}
+  echo "Copying: ${INPUT_REMOTE_CACHE_DIR} -> releases/${GITHUB_SHA}"
+  cp -RT ${INPUT_REMOTE_CACHE_DIR} releases/${GITHUB_SHA}
 
   if [ ! -d "releases/${GITHUB_SHA}" ];
   then
