@@ -44,9 +44,6 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
     exit 1
   fi
 
-  echo "Make craft command executable"
-  chmod a+x ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/craft
-
   echo "Symlinking: persistent files & directories"
   ln -nfs ${INPUT_REMOTE_PATH}/.env ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}
   ln -nfs ${INPUT_REMOTE_PATH}/storage/backups ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
@@ -59,6 +56,8 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   ln -s releases/${GITHUB_SHA} current
 
   cd current
+  echo "Make craft command executable"
+  chmod a+x craft
   ${INPUTS_POST_DEPLOY}
 
   echo "Removing old releases"
