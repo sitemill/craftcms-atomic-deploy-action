@@ -16,7 +16,7 @@ inputs:
     required: true
   local_path:
     description: 'Path to your built artifacts'
-    default: ''
+    default: ${{ github.workspace }}
     required: false
   remote_path:
     description: 'Absolute remote path'
