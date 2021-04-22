@@ -6,6 +6,7 @@ RUN apk update && \
       apk add --no-cache ca-certificates \
       openssh-client \
       sshpass \
+      rsync \
       bash
 
 # Copies your code file repository to the filesystem
