@@ -24,13 +24,21 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   cd ${INPUT_REMOTE_PATH}
   mkdir -p releases
 
-  if [ ! -d "releases/${GITHUB_SHA}" ];
+  if [ -d "releases/${GITHUB_SHA}" ];
   then
+    echo "Release directory already exists."
+    exit 1
+  else
     echo "Creating: releases/${GITHUB_SHA}"
     cp -R ${INPUT_SOURCE_DIR} releases/${GITHUB_SHA}
   fi
 
-  echo "Checking Craft command is executable"
+  if [ ! -d "releases/${GITHUB_SHA}" ];
+    echo "Could not create directory releases/${GITHUB_SHA}"
+    exit 1
+  fi
+
+  echo "Make craft command executable"
   chmod a+x ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/craft
 
   echo "Creating persistent directories"
