@@ -23,6 +23,8 @@ __Settings:__
 
 `port` - Your SSH server port, defaults to 22 if none set.
 
+`local_path` - Path to your local artifacts, defaults to `GITHUB_WORKSPACE`
+
 `remote_path` - The absolute path to the root directory of you application something like `cd /var/www/vhosts/your-app`.
 
 `rsync` - Whether to use rsync to sync the files to the `remote_cache_dir`. Defaults to `true`. Set this to false if you are uploading files in a different job.
@@ -49,15 +51,18 @@ jobs:
       - name: Atomic Craft Deploy
         uses: sitemill/craftcms-atomic-deploy-action@v1.0.0
         with:
+          
           # Required settings
           host: ${{ secrets.HOST }}
           user: ${{ secrets.USER }}
           ssh_key: ${{ secrets.SSH_KEY }}
           remote_path: ${{ secrets.REMOTE_PATH }}
-          # Optional settings
+          
+          # Optional settings (showing defaults)
           rsync: true
+          local_path: ${{ github.workspace }}
           remote_cache_dir: deploy-cache
-          port: ${{ secrets.PORT }}
+          port: 22
           post_deploy: |
             php craft db/backup
             php craft clear-caches/all
