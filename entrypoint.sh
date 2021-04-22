@@ -24,14 +24,8 @@ ssh -i $KEYFILE -o StrictHostKeyChecking=no -p ${INPUT_PORT} ${INPUT_USER}@${INP
   cd ${INPUT_REMOTE_PATH}
   mkdir -p releases
 
-  if [ -d "releases/${GITHUB_SHA}" ];
-  then
-    echo "Error: Release directory already exists."
-    exit 1
-  else
-    echo "Creating: releases/${GITHUB_SHA}"
-    cp -R ${INPUT_SOURCE_DIR} releases/${GITHUB_SHA}
-  fi
+  echo "Creating: releases/${GITHUB_SHA}"
+  cp -R ${INPUT_SOURCE_DIR} releases/${GITHUB_SHA}
 
   if [ ! -d "releases/${GITHUB_SHA}" ];
   then
