@@ -4,7 +4,7 @@ An action to Atomically deploy your Craft project.
 
 **It will:**
 
-1. **Rsync** your source files to your server. By default it will put them in a folder called `deploy-cache`, but you can ovveride this with `remote_cache_dir`
+1. **Rsync** your source files to your server. By default it will put them in a folder called `deploy-cache` (you can override this with `remote_cache_dir`)
 1. **Copy** the cached files into a unique `releases` directory
 2. **Symlink** persistent files `.env` and the `backups`, `logs`, `runtime` and `config-deltas` folders
 3. **Set** `craft` to be executable with `chmod a+x craft`
