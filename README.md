@@ -49,7 +49,7 @@ jobs:
       # >> Your build actions here <<
 
       - name: Atomic Craft Deploy
-        uses: sitemill/craftcms-atomic-deploy-action@main
+        uses: sitemill/craftcms-atomic-deploy-action@v1.0.0
         with:
           
           # Required settings
