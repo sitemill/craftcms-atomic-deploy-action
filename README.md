@@ -36,7 +36,7 @@ __Settings:__
 
 ## Example
 
-```yaml
+```yaml`
 
 jobs:
   deploy:
@@ -109,3 +109,5 @@ web/cpresources/
 You can generate a key using `ssh-keygen -t rsa -b 4096 -m pem -f /tmp/key-github`. 
 
 Place the public key on your remote server, and paste the private key into a github secret.
+
+![Excellent](https://media.giphy.com/media/l0HlvcRyVJeO8Gmju/source.gif)
