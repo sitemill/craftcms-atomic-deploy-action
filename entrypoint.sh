@@ -74,6 +74,10 @@ if [ ! -d "storage" ]
 then
   echo "Creating storage directory"
   mkdir storage
+  mkdir storage/runtime
+  mkdir storage/logs
+  mkdir storage/config-deltas
+  mkdir storage/backups
 fi
 
 echo "Copying: ${INPUT_REMOTE_CACHE_DIR} -> releases/${GITHUB_SHA}"
