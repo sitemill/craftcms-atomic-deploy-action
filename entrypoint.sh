@@ -101,7 +101,7 @@ echo "Symlinking: storage/config-deltas"
 ln -nfs ${INPUT_REMOTE_PATH}/storage/config-deltas ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
 
 echo "Linking current to revision: ${GITHUB_SHA}"
-rm -f current
+rm -rf ${INPUT_REMOTE_PATH}/current
 ln -s ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA} ${INPUT_REMOTE_PATH}/current
 
 cd ${INPUT_REMOTE_PATH}/current
