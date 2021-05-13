@@ -100,12 +100,16 @@ ln -nfs ${INPUT_REMOTE_PATH}/storage/runtime ${INPUT_REMOTE_PATH}/releases/${GIT
 echo "Symlinking: storage/config-deltas"
 ln -nfs ${INPUT_REMOTE_PATH}/storage/config-deltas ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}/storage
 
-echo "Linking current to revision: ${GITHUB_SHA}"
-rm -rf ${INPUT_REMOTE_PATH}/current
+if [ -d "${INPUT_REMOTE_PATH}/current" ];
+then
+  echo "Deleting existing ${INPUT_REMOTE_PATH}/current"
+  rm -rf ${INPUT_REMOTE_PATH}/current
+fi
+echo "Symlinking ${INPUT_REMOTE_PATH}/current to ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}"
 ln -s ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA} ${INPUT_REMOTE_PATH}/current
 
 cd ${INPUT_REMOTE_PATH}/current
-echo "Make craft command executable"
+echo "Making craft command executable"
 chmod a+x craft
 ${INPUT_POST_DEPLOY}
 
