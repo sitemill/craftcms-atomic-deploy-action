@@ -36,7 +36,7 @@ __Settings:__
 
 ## Example
 
-```yaml`
+```yaml
 
 jobs:
   deploy:
