@@ -25,6 +25,7 @@ echo "No rsync ignore file, creating ${INPUT_RSYNC_IGNORE_FILE} from defaults"
 cat > ${INPUT_LOCAL_PATH}/${INPUT_RSYNC_IGNORE_FILE} << EOF
 .github
 node_modules
+.rsyncignore
 .idea
 .git
 .gitignore
