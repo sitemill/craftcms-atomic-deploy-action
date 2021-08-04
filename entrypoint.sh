@@ -104,7 +104,7 @@ fi
 echo "Symlinking ${INPUT_REMOTE_PATH}/current to ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}"
 ln -s ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA} ${INPUT_REMOTE_PATH}/current
 
-cd ${INPUT_REMOTE_PATH}/current
+cd ${INPUT_REMOTE_PATH}/releases/${GITHUB_SHA}
 echo "Making craft command executable"
 chmod a+x craft
 ${INPUT_POST_DEPLOY}
